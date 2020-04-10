@@ -1,0 +1,8 @@
+@import "../../scss/abstracts/variables";
+.footer {
+  display: flex;
+  margin-top: auto;
+  background-color: $primary;
+  justify-content: center;
+  height: 100px;
+}
