@@ -2,6 +2,7 @@
   "name": "now-showing-movies",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://dzhykaiev.github.io/now-showing-movies/",
   "dependencies": {
     "@material-ui/core": "^4.9.9",
     "@testing-library/jest-dom": "^4.2.4",
@@ -17,6 +18,7 @@
     "@types/uniqid": "^4.1.3",
     "axios": "^0.19.2",
     "formik": "^2.1.4",
+    "gh-pages": "^2.2.0",
     "lodash": "^4.17.15",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
@@ -33,7 +35,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
