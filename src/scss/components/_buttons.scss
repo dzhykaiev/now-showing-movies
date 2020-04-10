@@ -1,0 +1,15 @@
+.btn,
+button {
+  @include button-reset();
+}
+
+.btn {
+  &__full {
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    background-color: $secondary;
+    height: 50px;
+    margin: 20px;
+  }
+}
