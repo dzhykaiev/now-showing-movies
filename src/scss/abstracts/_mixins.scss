@@ -1,0 +1,35 @@
+@mixin media-query($breakpoint) {
+  // MEDIA QUERY MANAGER
+  // 0 - 768px: sm
+  // 768 - 1200px: md
+  // 1200px < : lg
+  //
+  // $breakpoint: sm | md | lg
+  @if $breakpoint == sm {
+    @media screen and (max-width: 767px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == md {
+    @media screen and (min-width: 768px) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == lg {
+    @media screen and (min-width: 1024px) {
+      @content;
+    }
+  }
+}
+
+@mixin button-reset {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+}

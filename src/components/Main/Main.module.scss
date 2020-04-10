@@ -1,0 +1,9 @@
+@import "../../scss/abstracts/mixins";
+.main {
+  width: 100%;
+  margin-top: 20px;
+  @include media-query(lg) {
+    width: calc(100% - 260px);
+    margin-top: 0;
+  }
+}

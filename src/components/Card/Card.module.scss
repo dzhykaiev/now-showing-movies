@@ -1,0 +1,40 @@
+@import "../../scss/abstracts/variables";
+@import "../../scss/abstracts/mixins";
+.wrapper {
+  flex: 0 1 calc(100%);
+  padding: 0 20px 20px;
+  img {
+    height: auto;
+    width: 100%;
+    display: block;
+  }
+  @include media-query(md) {
+    flex-basis: calc(50%);
+  }
+  @include media-query(lg) {
+    flex-basis: calc(25%);
+  }
+}
+
+.card {
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  min-height: 30px;
+  padding: 15px 10px;
+}
+
+.title {
+  font-weight: bold;
+  color: $secondary;
+  margin-bottom: 5px;
+}
