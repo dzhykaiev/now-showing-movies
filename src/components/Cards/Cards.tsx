@@ -22,9 +22,10 @@ const Cards = observer(() => {
   return (
     <InfiniteScroll
       pageStart={0}
-      loadMore={movieStore.loadMoreMoviesAsync}
-      hasMore={true || false}
+      loadMore={movieStore.fetchData}
+      hasMore={movieStore.hasMore}
       loader={<Loading key={uniqid()} />}
+      threshold={0}
     >
       <div className={s.cards}>
         {movieStore?.result?.map((item) => {

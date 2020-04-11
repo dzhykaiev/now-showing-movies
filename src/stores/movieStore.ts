@@ -22,7 +22,7 @@ export class MovieStore {
    *
    */
   @action.bound
-  loadMoreMoviesAsync() {
+  fetchData(nextPage?: number) {
     if (this.status !== "pending") {
       this.status = "pending";
 
@@ -32,7 +32,7 @@ export class MovieStore {
       }
       const requests = urls.map((url) =>
         API.get(url, {
-          params: { page: this.nextPage },
+          params: { page: nextPage },
         })
       );
 
@@ -60,11 +60,12 @@ export class MovieStore {
     }
   }
 
-  @computed get nextPage() {
-    if (this.nowPlaying?.page) {
-      return this.nowPlaying.page + 1;
+  @computed get hasMore() {
+    if (this.status === null) {
+      return true;
+    } else {
+      return Boolean(this.nowPlaying?.total_pages - this.nowPlaying?.page);
     }
-    return 1;
   }
 
   @computed get result(): SearchResultModel[] {
