@@ -1,0 +1,29 @@
+name: Unit testing
+env:
+  REACT_APP_TMDb_API_KEY: ${{ secrets.REACT_APP_TMDb_API_KEY }}
+on:
+  push:
+    branches-ignore:
+      - master
+      - gh-pages
+  pull_request:
+    branches-ignore:
+      - master
+      - gh-pages
+jobs:
+  unit_testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Install and Build 🔧
+        run: |
+          npm install
+          npm run build
+
+      - name: Seeking bugs 🐛
+        run: |
+          npm run test
