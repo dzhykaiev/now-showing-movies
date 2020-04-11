@@ -8,7 +8,7 @@ import {
   Status,
 } from "../models";
 import { API, API_DEFAULT_URLS } from "../api/api";
-import { sort, filter, pickResultValues } from "../helpers/helpers";
+import { sort, filter } from "../helpers/helpers";
 
 export class MovieStore {
   public nowPlaying: NowPlayingModel = null;
@@ -70,7 +70,7 @@ export class MovieStore {
 
   @computed get result(): SearchResultModel[] {
     if (this.nowPlaying) {
-      let result = pickResultValues(this.nowPlaying.results);
+      let result: SearchResultModel[] = this.nowPlaying.results;
       result = filter("ByGenres", result, this.movieChosenGenres);
       result = filter("ByUserScore", result, this.userScore);
       result = sort(result, this.movieSortOrder);

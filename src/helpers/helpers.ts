@@ -1,6 +1,5 @@
 import { orderBy } from "lodash";
-import { SearchResultModel, SortOrder, Result } from "../models";
-import { pick } from "lodash";
+import { SearchResultModel, SortOrder } from "../models";
 
 export type FilterType = "ByGenres" | "ByUserScore";
 /**
@@ -51,20 +50,4 @@ export const filter = (
     });
   }
   return filtered;
-};
-/**
- * the outsourced function, pick only values by key that are really needed
- *
- */
-export const pickResultValues = (results: Result[]): SearchResultModel[] => {
-  return results.map((item) =>
-    pick(item, [
-      "title",
-      "poster_path",
-      "genre_ids",
-      "popularity",
-      "vote_average",
-      "release_date",
-    ])
-  );
 };
