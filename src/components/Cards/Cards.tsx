@@ -5,7 +5,8 @@ import Card from "../Card/Card";
 import uniqid from "uniqid";
 import s from "./Cards.module.scss";
 import { Genre } from "../../models";
-import Button from "../Button/Button";
+import Loading from "../Loading/Loading";
+import InfiniteScroll from "react-infinite-scroller";
 
 const getGenresText = (genres: Genre[], ids: number[]): string[] => {
   return genres?.reduce((acc, cur) => {
@@ -19,16 +20,22 @@ const getGenresText = (genres: Genre[], ids: number[]): string[] => {
 const Cards = observer(() => {
   const { movieStore } = useStores();
   return (
-    <div className={s.cards}>
-      {movieStore.result?.map((item) => {
-        const genres: string[] = getGenresText(
-          movieStore.genres,
-          item.genre_ids
-        );
-        return <Card key={uniqid()} movie={item} genresText={genres} />;
-      })}
-      <Button click={movieStore.loadMoreMoviesAsync}>Load more</Button>
-    </div>
+    <InfiniteScroll
+      pageStart={0}
+      loadMore={movieStore.loadMoreMoviesAsync}
+      hasMore={true || false}
+      loader={<Loading key={uniqid()} />}
+    >
+      <div className={s.cards}>
+        {movieStore?.result?.map((item) => {
+          const genres: string[] = getGenresText(
+            movieStore.genres,
+            item.genre_ids
+          );
+          return <Card key={uniqid()} movie={item} genresText={genres} />;
+        })}
+      </div>
+    </InfiniteScroll>
   );
 });
 

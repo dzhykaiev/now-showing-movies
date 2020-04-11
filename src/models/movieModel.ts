@@ -59,3 +59,18 @@ export type SortOrder =
   | "Release Date Ascending"
   | "Title (A-Z)"
   | "Title (Z-A)";
+
+type UnionKeyToValue<U extends string> = {
+  [key in U]: key;
+};
+
+export const sortOrderValues: Readonly<UnionKeyToValue<SortOrder>> = {
+  "Popularity Descending": "Popularity Descending",
+  "Popularity Ascending": "Popularity Ascending",
+  "Rating Descending": "Rating Descending",
+  "Rating Ascending": "Rating Ascending",
+  "Release Date Descending": "Release Date Descending",
+  "Release Date Ascending": "Release Date Ascending",
+  "Title (A-Z)": "Title (A-Z)",
+  "Title (Z-A)": "Title (Z-A)",
+};

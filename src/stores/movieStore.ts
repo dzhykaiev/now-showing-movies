@@ -12,61 +12,65 @@ import { sort, filter, pickResultValues } from "../helpers/helpers";
 export class MovieStore {
   public nowPlaying: NowPlayingModel = null;
   public genres: Genre[] = null;
-  public result: SearchResultModel[] = null;
   public movieSortOrder: SortOrder = "Popularity Descending";
   public movieChosenGenres: number[] = null;
   public userScore: number | number[] = 3;
   /**
-   * init async method in store that fetch datafrom the server
+   * init async method in store that fetch data from the server
    *
    */
-  @action
-  initFetchAsync() {
-    const requests = API_DEFAULT_URLS.map((url) => API.get(url));
+  @action.bound
+  loadMoreMoviesAsync() {
+    let urls = [API_DEFAULT_URLS[0]];
+    if (!this.genres) {
+      urls = [...urls, API_DEFAULT_URLS[1]];
+    }
+    const requests = urls.map((url) =>
+      API.get(url, {
+        params: { page: this.nextPage },
+      })
+    );
 
     Promise.all(requests)
       .then((responses) => {
-        console.log(responses);
         return responses.map((response) => {
           return response.data;
         });
       })
       .then((responses) => {
-        this.saveNowPlaying(responses[0]);
-        this.saveGenres(responses[1]);
+        if (responses[0]) {
+          this.saveNowPlaying(responses[0]);
+        }
+        if (responses[1]) {
+          this.saveGenres(responses[1]);
+        }
         return;
       })
-      .then(() => this.setResultValues())
       .catch((err) => {
         console.error(err);
       });
   }
+
   @computed get nextPage() {
     if (this.nowPlaying?.page) {
       return this.nowPlaying.page + 1;
     }
     return 1;
   }
-  /**
-   * load more movies async action
-   *
-   */
-  @action.bound
-  loadMoreMoviesAsync() {
-    API.get(API_DEFAULT_URLS[0], {
-      params: { page: this.nextPage },
-    })
-      .then((response) => {
-        this.saveNowPlaying(response.data);
-        return;
-      })
-      .then(() => {
-        this.setResultValues();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+
+  @computed get result(): SearchResultModel[] {
+    if (this.nowPlaying) {
+      let result = sort(
+        pickResultValues(this.nowPlaying.results),
+        this.movieSortOrder
+      );
+      result = filter("ByGenres", result, this.movieChosenGenres);
+      result = filter("ByUserScore", result, this.userScore);
+      return result;
+    }
+    return null;
   }
+
   /**
    * save now playing values over old ones except results key, they stored all from first page
    *
@@ -76,7 +80,6 @@ export class MovieStore {
     if (!this.nowPlaying) {
       this.nowPlaying = nowPlaying;
     } else {
-      console.log(this.nowPlaying.results);
       this.nowPlaying = {
         results: [...this.nowPlaying.results, ...nowPlaying.results],
         page: nowPlaying.page,
@@ -95,51 +98,34 @@ export class MovieStore {
     this.genres = genres.genres;
   }
   /**
-   * action save sort order to store and trigger update all movies in page for sort and filter
+   * change sorting order
    *
    */
   @action.bound
   changeSortOrder(sortOrder: SortOrder) {
     this.movieSortOrder = sortOrder;
-    this.setResultValues();
   }
   /**
-   * action save chosend genres to store and trigger update all movies in page for sort and filter
+   * change genres filter
    *
    */
   @action.bound
   changeChosenGenres(movieChosenGenres: number[]) {
     this.movieChosenGenres = movieChosenGenres;
-    this.setResultValues();
   }
   /**
-   * action save user score to store and trigger update all movies in page for sort and filter
+   * change user score filter
    *
    */
   @action.bound
   changeUserScore(userScore: number | number[]) {
     this.userScore = userScore;
-    this.setResultValues();
-  }
-  /**
-   * this is func update that triggered after all thanges to store that can affect on sort or filter items
-   *
-   */
-  private setResultValues(): void {
-    let result = sort(
-      pickResultValues(this.nowPlaying.results),
-      this.movieSortOrder
-    );
-    result = filter("ByGenres", result, this.movieChosenGenres);
-    result = filter("ByUserScore", result, this.userScore);
-    this.result = result;
   }
 }
 
 decorate(MovieStore, {
   nowPlaying: observable,
   genres: observable,
-  result: observable,
   movieSortOrder: observable,
   movieChosenGenres: observable,
   userScore: observable,
