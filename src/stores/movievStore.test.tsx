@@ -125,7 +125,7 @@ describe("Testing MovieStore - Async", () => {
       expect(sut.nowPlaying.results.length).toEqual(20);
       expect(sut.nowPlaying.page).toEqual(1);
     });
-    sut.fetchData();
+    sut.fetchData(2);
     await wait(() => {
       expect(sut.nowPlaying.results.length).toEqual(40);
       expect(sut.nowPlaying.page).toEqual(2);
