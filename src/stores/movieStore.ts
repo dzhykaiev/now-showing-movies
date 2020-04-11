@@ -70,12 +70,10 @@ export class MovieStore {
 
   @computed get result(): SearchResultModel[] {
     if (this.nowPlaying) {
-      let result = sort(
-        pickResultValues(this.nowPlaying.results),
-        this.movieSortOrder
-      );
+      let result = pickResultValues(this.nowPlaying.results);
       result = filter("ByGenres", result, this.movieChosenGenres);
       result = filter("ByUserScore", result, this.userScore);
+      result = sort(result, this.movieSortOrder);
       return result;
     }
     return null;
