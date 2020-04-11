@@ -51,11 +51,6 @@ describe("Testing MovieStore - Sync", () => {
     // assert
     expect<number[]>(sut.movieChosenGenres).toEqual<number[]>(genre);
   });
-
-  test("Check nextPage method ", () => {
-    // assert
-    expect<number>(sut.nextPage).toEqual<number>(1);
-  });
 });
 
 describe("Testing MovieStore - Async", () => {
@@ -64,7 +59,7 @@ describe("Testing MovieStore - Async", () => {
     // arrange
     sut = new MovieStore();
     //act
-    sut.loadMoreMoviesAsync();
+    sut.fetchData();
   });
 
   test("Check if loadMoreMoviesAsync method save nowPlaying data", async (done) => {
@@ -128,12 +123,12 @@ describe("Testing MovieStore - Async", () => {
   test("Check if loadMoreMoviesAsync method - load more", async (done) => {
     await wait(() => {
       expect(sut.nowPlaying.results.length).toEqual(20);
-      expect(sut.nextPage).toEqual(2);
+      expect(sut.nowPlaying.page).toEqual(1);
     });
-    sut.loadMoreMoviesAsync();
+    sut.fetchData(2);
     await wait(() => {
       expect(sut.nowPlaying.results.length).toEqual(40);
-      expect(sut.nextPage).toEqual(3);
+      expect(sut.nowPlaying.page).toEqual(2);
     });
     done();
   });

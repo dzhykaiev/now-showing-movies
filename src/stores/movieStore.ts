@@ -8,7 +8,7 @@ import {
   Status,
 } from "../models";
 import { API, API_DEFAULT_URLS } from "../api/api";
-import { sort, filter, pickResultValues } from "../helpers/helpers";
+import { sort, filter } from "../helpers/helpers";
 
 export class MovieStore {
   public nowPlaying: NowPlayingModel = null;
@@ -22,7 +22,7 @@ export class MovieStore {
    *
    */
   @action.bound
-  loadMoreMoviesAsync() {
+  fetchData(nextPage?: number) {
     if (this.status !== "pending") {
       this.status = "pending";
 
@@ -32,7 +32,7 @@ export class MovieStore {
       }
       const requests = urls.map((url) =>
         API.get(url, {
-          params: { page: this.nextPage },
+          params: { page: nextPage },
         })
       );
 
@@ -60,21 +60,20 @@ export class MovieStore {
     }
   }
 
-  @computed get nextPage() {
-    if (this.nowPlaying?.page) {
-      return this.nowPlaying.page + 1;
+  @computed get hasMore() {
+    if (this.status === null) {
+      return true;
+    } else {
+      return Boolean(this.nowPlaying?.total_pages - this.nowPlaying?.page);
     }
-    return 1;
   }
 
   @computed get result(): SearchResultModel[] {
     if (this.nowPlaying) {
-      let result = sort(
-        pickResultValues(this.nowPlaying.results),
-        this.movieSortOrder
-      );
+      let result: SearchResultModel[] = this.nowPlaying.results;
       result = filter("ByGenres", result, this.movieChosenGenres);
       result = filter("ByUserScore", result, this.userScore);
+      result = sort(result, this.movieSortOrder);
       return result;
     }
     return null;
