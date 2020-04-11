@@ -23,7 +23,6 @@ export class MovieStore {
    */
   @action.bound
   loadMoreMoviesAsync() {
-    console.log(this.status);
     if (this.status !== "pending") {
       this.status = "pending";
 
@@ -44,7 +43,7 @@ export class MovieStore {
           });
         })
         .then((responses) => {
-          this.status = "succes";
+          this.status = "success";
           if (responses[0]) {
             this.saveNowPlaying(responses[0]);
           }
