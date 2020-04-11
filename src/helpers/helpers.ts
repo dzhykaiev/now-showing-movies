@@ -56,7 +56,7 @@ export const filter = (
  * the outsourced function, pick only values by key that are really needed
  *
  */
-export const pickResultValues = (results: Result[]) => {
+export const pickResultValues = (results: Result[]): SearchResultModel[] => {
   return results.map((item) =>
     pick(item, [
       "title",
