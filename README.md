@@ -9,5 +9,3 @@
 ### 4. in project folder should create `.env` file, and add `REACT_APP_TMDb_API_KEY=YOUR_KEY` where `YOUR_KEY` is your api_key from [themoviedb](https://www.themoviedb.org/)
 
 ### 4. for starting project use command `npm start`
-
-#### P.S. whithout .env file and api_key in it whill be using mock data from .json.
