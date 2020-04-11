@@ -5,6 +5,7 @@ import {
   SearchResultModel,
   Genre,
   SortOrder,
+  Status,
 } from "../models";
 import { API, API_DEFAULT_URLS } from "../api/api";
 import { sort, filter, pickResultValues } from "../helpers/helpers";
@@ -15,40 +16,49 @@ export class MovieStore {
   public movieSortOrder: SortOrder = "Popularity Descending";
   public movieChosenGenres: number[] = null;
   public userScore: number | number[] = 3;
+  public status: Status = null;
   /**
    * init async method in store that fetch data from the server
    *
    */
   @action.bound
   loadMoreMoviesAsync() {
-    let urls = [API_DEFAULT_URLS[0]];
-    if (!this.genres) {
-      urls = [...urls, API_DEFAULT_URLS[1]];
-    }
-    const requests = urls.map((url) =>
-      API.get(url, {
-        params: { page: this.nextPage },
-      })
-    );
+    console.log(this.status);
+    if (this.status !== "pending") {
+      this.status = "pending";
 
-    Promise.all(requests)
-      .then((responses) => {
-        return responses.map((response) => {
-          return response.data;
+      let urls = [API_DEFAULT_URLS[0]];
+      if (!this.genres) {
+        urls = [...urls, API_DEFAULT_URLS[1]];
+      }
+      const requests = urls.map((url) =>
+        API.get(url, {
+          params: { page: this.nextPage },
+        })
+      );
+
+      Promise.all(requests)
+        .then((responses) => {
+          return responses.map((response) => {
+            return response.data;
+          });
+        })
+        .then((responses) => {
+          this.status = "succes";
+          if (responses[0]) {
+            this.saveNowPlaying(responses[0]);
+          }
+          if (responses[1]) {
+            this.saveGenres(responses[1]);
+          }
+          return;
+        })
+
+        .catch((err) => {
+          this.status = "error";
+          console.error(err);
         });
-      })
-      .then((responses) => {
-        if (responses[0]) {
-          this.saveNowPlaying(responses[0]);
-        }
-        if (responses[1]) {
-          this.saveGenres(responses[1]);
-        }
-        return;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }
   }
 
   @computed get nextPage() {
@@ -129,4 +139,5 @@ decorate(MovieStore, {
   movieSortOrder: observable,
   movieChosenGenres: observable,
   userScore: observable,
+  status: observable,
 });

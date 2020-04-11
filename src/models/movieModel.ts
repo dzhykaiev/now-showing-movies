@@ -74,3 +74,5 @@ export const sortOrderValues: Readonly<UnionKeyToValue<SortOrder>> = {
   "Title (A-Z)": "Title (A-Z)",
   "Title (Z-A)": "Title (Z-A)",
 };
+
+export type Status = "pending" | "error" | "succes";
