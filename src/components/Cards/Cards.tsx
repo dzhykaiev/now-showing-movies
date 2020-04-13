@@ -2,7 +2,6 @@ import React from "react";
 import { observer } from "mobx-react";
 import { useStores } from "../../hooks/use-stores";
 import Card from "../Card/Card";
-import uniqid from "uniqid";
 import s from "./Cards.module.scss";
 import { Genre } from "../../models";
 import Loading from "../Loading/Loading";
@@ -24,8 +23,7 @@ const Cards = observer(() => {
       pageStart={0}
       loadMore={movieStore.fetchData}
       hasMore={movieStore.hasMore}
-      loader={<Loading key={uniqid()} />}
-      threshold={0}
+      loader={<Loading key={"Loading"} />}
     >
       <div className={s.cards}>
         {movieStore?.result?.map((item) => {
@@ -33,7 +31,7 @@ const Cards = observer(() => {
             movieStore.genres,
             item.genre_ids
           );
-          return <Card key={uniqid()} movie={item} genresText={genres} />;
+          return <Card key={item.id} movie={item} genresText={genres} />;
         })}
       </div>
     </InfiniteScroll>
