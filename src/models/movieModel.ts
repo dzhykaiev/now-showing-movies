@@ -47,6 +47,7 @@ export interface SearchResultModel {
   popularity: number;
   vote_average: number;
   release_date: string;
+  id: number;
 }
 
 // ---
@@ -75,4 +76,4 @@ export const sortOrderValues: Readonly<UnionKeyToValue<SortOrder>> = {
   "Title (Z-A)": "Title (Z-A)",
 };
 
-export type Status = "pending" | "error" | "success";
+export type Status = "pending" | "error" | "done" | "initial";

@@ -5,6 +5,7 @@ import {
   NowPlayingModel,
   Genre,
   sortOrderValues,
+  Status,
 } from "../models/movieModel";
 
 describe("Testing MovieStore - Sync", () => {
@@ -22,6 +23,7 @@ describe("Testing MovieStore - Sync", () => {
     );
     expect<number[]>(sut.movieChosenGenres).toBeNull();
     expect<number | number[]>(sut.userScore).toEqual<number | number[]>(3);
+    expect<Status>(sut.status).toEqual<Status>("initial");
   });
 
   test("Check changeSortOrder method for all sort values", () => {
@@ -59,7 +61,7 @@ describe("Testing MovieStore - Async", () => {
     // arrange
     sut = new MovieStore();
     //act
-    sut.fetchData();
+    sut.fetchData(1);
   });
 
   test("Check if loadMoreMoviesAsync method save nowPlaying data", async (done) => {
