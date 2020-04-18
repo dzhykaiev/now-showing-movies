@@ -1,3 +1,5 @@
+![Build and Deploy](https://github.com/dzhykaiev/now-showing-movies/workflows/Build%20and%20Deploy/badge.svg?branch=master)
+![Unit testing](https://github.com/dzhykaiev/now-showing-movies/workflows/Unit%20testing/badge.svg?branch=development)
 # Steps for setup this app in your envirement
 
 ### 1. clone repositorie to your envirement
