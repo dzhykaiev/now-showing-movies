@@ -1,5 +1,6 @@
-![Build and Deploy](https://github.com/dzhykaiev/now-showing-movies/workflows/Build%20and%20Deploy/badge.svg?branch=master)
-![Unit testing](https://github.com/dzhykaiev/now-showing-movies/workflows/Unit%20testing/badge.svg?branch=development)
+[![Build and Deploy](https://github.com/dzhykaiev/now-showing-movies/workflows/Build%20and%20Deploy/badge.svg?branch=master)](https://github.com/dzhykaiev/now-showing-movies/actions?query=workflow%3A%22Build+and+Deploy%22)
+[![Unit testing](https://github.com/dzhykaiev/now-showing-movies/workflows/Unit%20testing/badge.svg?branch=development)](https://github.com/dzhykaiev/now-showing-movies/actions?query=workflow%3A%22Unit+testing%22)
+
 # Steps for setup this app in your envirement
 
 ### 1. clone repositorie to your envirement
@@ -11,3 +12,6 @@
 ### 4. in project folder should create `.env` file, and add `REACT_APP_TMDb_API_KEY=YOUR_KEY` where `YOUR_KEY` is your api_key from [themoviedb](https://www.themoviedb.org/)
 
 ### 4. for starting project use command `npm start`
+
+
+[![latex](https://github.com/yegor256/ctors-vs-size/workflows/latex/badge.svg)](https://github.com/yegor256/ctors-vs-size/actions?query=latex)
